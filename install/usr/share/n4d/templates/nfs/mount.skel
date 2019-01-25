@@ -1,0 +1,15 @@
+[Unit]
+Description = NfsManager mount
+After = network-online.target
+Requires = network-online.target
+
+[Mount]
+What = {{ SRC }}
+Where = {{ DEST }}
+Type = nfs
+Options = {{ OPTIONS }}
+TimeoutSec = 30
+
+[Install]
+WantedBy = multi-user.target
+

@@ -1,0 +1,17 @@
+[SETUP]
+type=python
+path=NfsManager.py
+class=NfsManager
+[METHODS]
+export_directories=adm,admins
+add_share=adm,admins
+add_mirror=adm,admins
+remove_ip_from_share=adm,admins
+remove_ip_from_mirror=adm,admins
+configure_mount_on_boot=adm,admins
+clean_exports_file=adm,admins
+remove_mount_on_boot=adm,admins
+is_mount_configured=anonymous
+is_mirror_shared=anonymous
+backup=adm,admins
+restore=adm,admins
