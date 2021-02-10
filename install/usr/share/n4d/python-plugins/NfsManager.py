@@ -12,7 +12,9 @@ import n4d.responses
 class NfsManager:
 
 	#ERRORS CODE
-	remove_ip_from_share_error = -10
+	#backup_exception = -10
+	#restore_exception = -20
+	#export_directories_failed = -30
 
 	
 	def __init__(self):
