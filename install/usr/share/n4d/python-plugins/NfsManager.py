@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import subprocess
 import re
 import os
@@ -5,9 +6,14 @@ import tempfile
 from jinja2 import Environment
 from jinja2.loaders import FileSystemLoader
 from jinja2 import Template
+import n4d.responses
 
 
 class NfsManager:
+
+	#ERRORS CODE
+	remove_ip_from_share_error = -10
+
 	
 	def __init__(self):
 		
@@ -23,6 +29,7 @@ class NfsManager:
 		
 		self.backup_files=[r'/lib/systemd/system/net-server\x2dsync.mount']
 		self.backup_dirs=["/etc/exports.d/"]
+
 
 		# LLX TESTING
 		#self.nfs_file="/tmp/exports"
@@ -40,7 +47,9 @@ class NfsManager:
 			f=self.nfs_file
 
 		if not os.path.isfile(f):
-			return {}
+			#Old n4d: return {}
+			# build_successful_call_response(ret_value=True,ret_msg=HUMAN_RESPONSES[CALL_SUCCESSFUL],status_code=0)
+			return n4d.responses.build_successful_call_response({})
 		
 		f=open(f)
 		lines=f.readlines()
@@ -63,20 +72,24 @@ class NfsManager:
 						exports[d]={}
 					
 					exports[d][ip]=options
-		return exports
+
+		# Old n4d: return exports
+		return n4d.responses.build_successful_call_response(exports)
 	
 	#def parse_exports_file
 	
 
 	def fix_missing_no_root_squash(self):
 		
-		exports=self.parse_exports_file()
+		exports=self.parse_exports_file()['return']
+		print(exports)
 
 		for d in exports:
 			for ip in exports[d]:
 				if "no_root_squash" not in exports[d][ip]:
 					exports[d][ip]+=",no_root_squash"
-
+		print('write_exports_file')
+		print(exports)
 		self.write_exports_file(exports)
 
 	#def fix_missing_no_root_squash
@@ -84,7 +97,7 @@ class NfsManager:
 
 	def fix_async(self):
 
-		exports=self.parse_exports_file()
+		exports=self.parse_exports_file()['return']
 		for d in exports:
 			for ip in exports[d]:
 				if "async" not in exports[d][ip]:
@@ -105,12 +118,12 @@ class NfsManager:
 		ret=p.communicate()
 		
 		if p.poll()==0:
-		
-			return {"status":True , "msg": "NFS shares exported"}
+			#old n4d: return {"status":True , "msg": "NFS shares exported"}
+			return n4d.responses.build_successful_call_response(True,'NFS shares exported')
 			
 		else:
-			
-			return {"status":False, "msg":ret[1]}
+			#old n4d: return {"status":False, "msg":ret[1]}
+			return n4d.responses.build_failed_call_response(-30,ret[1])
 		
 	#def export_directories
 
@@ -120,7 +133,7 @@ class NfsManager:
 		if options==None:
 			options=self.default_options
 			
-		exports=self.parse_exports_file()
+		exports=self.parse_exports_file()['return']
 	
 		if d not in exports:
 			exports[d]={}
@@ -135,7 +148,7 @@ class NfsManager:
 		if options==None:
 			options=self.default_options
 			
-		exports=self.parse_exports_file(self.mirror_file)
+		exports=self.parse_exports_file(self.mirror_file)['return']
 	
 		if mirror_dir not in exports:
 			exports[mirror_dir]={}
@@ -147,7 +160,7 @@ class NfsManager:
 	
 	def remove_ip_from_share(self,share,ip):
 		
-		exports=self.parse_exports_file()
+		exports=self.parse_exports_file()['return']
 		
 		if share in exports:
 			if ip in exports[share]:
@@ -155,13 +168,16 @@ class NfsManager:
 				
 				self.write_exports_file(exports)
 				
-				return {"status":True,"msg":"Removed IP from server"}
+				#Old n4d: return {"status":True,"msg":"Removed IP from server"}
+				return n4d.responses.build_successful_call_response(True,"Removed IP from server")
 			
 			else:
-				return {"status":False,"msg":"IP not found"}
+				#Old n4d: return {"status":False,"msg":"IP not found"}
+				return n4d.responses.build_successful_call_response(False,"IP not found")
 				
 		else:
-			return {"status":True,"msg":"Share dir. not found"}
+			#Old n4d: return {"status":True,"msg":"Share dir. not found"}
+			return n4d.responses.build_successful_call_response(True,"Share dir. not found")
 			
 		
 	#def remove_ip_from_share
@@ -169,7 +185,7 @@ class NfsManager:
 	
 	def remove_ip_from_mirror(self,mirror_dir,ip):
 		
-		exports=self.parse_exports_file(self.mirror_file)
+		exports=self.parse_exports_file(self.mirror_file)['return']
 		
 		if mirror_dir in exports:
 			if ip in exports[mirror_dir]:
@@ -177,13 +193,16 @@ class NfsManager:
 				
 				self.write_exports_file(exports,self.mirror_file)
 				
-				return {"status":True,"msg":"Removed IP from server"}
+				#Old n4d: return {"status":True,"msg":"Removed IP from server"}
+				return n4d.responses.build_successful_call_response(True,"Removed IP from server")
 			
 			else:
-				return {"status":False,"msg":"IP not found"}
+				#Old n4d: return {"status":False,"msg":"IP not found"}
+				return n4d.responses.build_successful_call_response(False,"IP not found")
 				
 		else:
-			return {"status":True,"msg":"Share dir. not found"}
+			#Old n4d: return {"status":True,"msg":"Share dir. not found"}
+			return n4d.responses.build_successful_call_response(True,"Share dir. not found")
 			
 		
 	#def remove_ip_from_share
@@ -191,6 +210,7 @@ class NfsManager:
 	
 	
 	def write_exports_file(self,exports,f=None):
+
 		
 		if f==None:
 			f=self.nfs_file
@@ -214,8 +234,15 @@ class NfsManager:
 		for line in file_lines:
 			f.write(line)
 		f.close()
-		self.export_directories()
-		return {"status":True,"msg":"NFS exports.d file written"}
+
+		export_value=self.export_directories()['status']
+		if export_value == 0:
+			#Old n4d: return {"status":True,"msg":"NFS exports.d file written"}
+			return n4d.responses.build_successful_call_response(True,"NFS exports.d file written")
+		else:
+			print('fracaso')
+			return n4d.responses.build_successful_call_response(False,"NFS exports.d can't file written")
+
 			
 	#def write_exports_file
 	
@@ -252,7 +279,8 @@ class NfsManager:
 		
 		ret=(o,o2)
 		
-		return {"status":True,"msg":ret}
+		#Old n4d: return {"status":True,"msg":ret}
+		return n4d.responses.build_successful_call_response(True,ret)
 		
 	#def configure_mount_on_boot
 	
@@ -271,7 +299,8 @@ class NfsManager:
 			os.remove(file_dest)
 			ret=(o,o2)
 			
-		return {"status":True,"msg":ret}
+		#Old n4d: return {"status":True,"msg":ret}
+		return n4d.responses.build_successful_call_response(True,ret)
 		
 	#def remove_mount_on_boot
 	
@@ -283,25 +312,30 @@ class NfsManager:
 		file_dest="/lib/systemd/system/"+file_name
 		
 		if os.path.exists(file_dest):
-			return {"status":True,"msg":"Mount systemd configuration exists"}
+			#Old n4d: return {"status":True,"msg":"Mount systemd configuration exists"}
+			return n4d.responses.build_successful_call_response(True,"Mount systemd configuration exists")
 		else:
-			return {"status":False,"msg":"Mount systemd configuration doesn't exist"}
+			#Old n4d: return {"status":False,"msg":"Mount systemd configuration doesn't exist"}
+			return n4d.responses.build_successful_call_response(False,"Mount systemd configuration doesn't exist")
 		
 	#def is_mount_configured
 	
 	
 	def is_mirror_shared(self,mirror_path,ip=None):
 		
-		exports=self.parse_exports_file(self.mirror_file)
+		exports=self.parse_exports_file(self.mirror_file)['return']
 		
 		if mirror_path not in exports:
-			return {"status":False, "msg": "Shared path not found"}
+			#Old n4d: return {"status":False, "msg": "Shared path not found"}
+			return n4d.responses.build_successful_call_response(False,"Shared path not found")
 		
 		if ip!=None:
 			if ip not in exports[mirror_path]:
-				return {"status":False, "msg": "IP not configured in shared path"}
+				#Old n4d: return {"status":False, "msg": "IP not configured in shared path"}
+				return n4d.responses.build_successful_call_response(False,"IP not configured in shared path")
 		
-		return {"status": True, "msg": "Shared is configured"}
+		#Old n4d: return {"status": True, "msg": "Shared is configured"}
+		return n4d.responses.build_successful_call_response(True,"Shared is configured")
 		
 	#def is_mirror_shared
 	
@@ -315,13 +349,18 @@ class NfsManager:
 			os.remove(f)
 			self.export_directories()
 		
-		return {"status":True,"msg":"NfsManager exports.d file is now clean"}
+		#Old n4d: return {"status":True,"msg":"NfsManager exports.d file is now clean"}
+		return n4d.responses.build_successful_call_response(True,"NfsManager exports.d file is now clean")
+
+	#def clean_exports_file
+
 
 	def makedir(self,dir_path=None):
 
 		if not os.path.isdir(dir_path):
 			os.makedirs(dir_path)
-		return [True]
+		#Old n4d: return [True]
+		return n4d.responses.build_successful_call_response(True)
 		
 	#def makedir
 	
@@ -342,13 +381,14 @@ class NfsManager:
 						tar.add(d+f)
 
 			tar.close()
-			print "Backup generated in %s" % file_path
-			return [True,file_path]
-
+			print ("Backup generated in %s" % file_path)
+			#Old n4d: return [True,file_path]
+			return n4d.responses.build_successful_call_response(file_path)
 
 		except Exception as e:
-			print "Backup failed", e
-			return [False,str(e)]
+			print ("Backup failed", e)
+			#Old n4d: return [False,str(e)]
+			return n4d.responses.build_failed_call_response(-10,str(e))
 
 	#def backup
 
@@ -384,13 +424,15 @@ class NfsManager:
 							os.makedirs(d)
 						os.system(cmd)
 
-			print "File is restored in %s" % self.backup_files
-			return [True,""]
+			print ("File is restored in %s" % self.backup_files)
+			#Old n4d: return [True,""]
+			return n4d.responses.build_successful_call_response(file_path)
 
 		except Exception as e:
 
-			print "Restored failed", e
-			return [False,str(e)]
+			print ("Restored failed", e)
+			#Old n4d: return [False,str(e)]
+			return n4d.responses.build_failed_call_response(-20,str(e))
 
 	#def restore
 	
