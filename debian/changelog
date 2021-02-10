@@ -1,0 +1,102 @@
+n4d-nfs (0.8) focal; urgency=medium
+
+  * Focal First version.
+
+ -- Daniel Duran <daduve@gmail.com>  Wed, 10 Feb 2021 13:42:10 +0100
+
+n4d-nfs (0.8) bionic; urgency=medium
+
+  * Adding sudo group
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Thu, 14 Feb 2019 12:31:37 +0100
+
+n4d-nfs (0.7) bionic; urgency=high
+
+  * First bionic release
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 25 Jan 2019 09:51:31 +0100
+
+n4d-nfs (0.6.5) xenial; urgency=high
+
+  * Added echo and or true in postinst process
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 08 May 2018 13:50:53 +0200
+
+n4d-nfs (0.6.4) xenial; urgency=high
+
+  * Added postinst process to replace sync with async 
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Mon, 07 May 2018 17:10:22 +0200
+
+n4d-nfs (0.6.3) xenial; urgency=high
+
+  * Using async instead of sync
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Mon, 07 May 2018 10:08:54 +0200
+
+n4d-nfs (0.6.2) xenial; urgency=high
+
+  * adding is_mirror_shared function
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 31 Oct 2017 13:35:54 +0100
+
+n4d-nfs (0.6.1) xenial; urgency=high
+
+  * Adding is_mount_configured functionality
+  * write_file functionality skips shared paths with no ips to be shared to
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 27 Oct 2017 08:44:41 +0200
+
+n4d-nfs (0.6) xenial; urgency=high
+
+  * Adding add_mirror functionality.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Thu, 26 Oct 2017 12:15:37 +0200
+
+n4d-nfs (0.5) xenial; urgency=high
+
+  * Adding nfsvers=3 to mount options.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 21 Jun 2017 14:37:57 +0200
+
+n4d-nfs (0.4) xenial; urgency=high
+
+  * Enabling no_root_squash. As of today, jclic-shared forces us to do this.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Mon, 19 Jun 2017 10:30:32 +0200
+
+n4d-nfs (0.3) xenial; urgency=high
+
+  * Fixed ip variable
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 19 Apr 2017 17:02:20 +0200
+
+n4d-nfs (0.2.3) xenial; urgency=medium
+
+  * Added backup/restore functionality
+
+ -- Juanma Navarro Mañez <juanma1980@gmail.com>  Mon, 25 Jul 2016 13:55:53 +0200
+
+n4d-nfs (0.2.2) xenial; urgency=high
+
+  * Removed n4d-vars helper from rules file
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 12 Apr 2016 10:22:18 +0200
+
+n4d-nfs (0.2.1) xenial; urgency=high
+
+  * Using a broader regex rule to check exports file
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Mon, 11 Apr 2016 12:36:35 +0200
+
+n4d-nfs (0.2) xenial; urgency=high
+
+  * Adding functionality to reset configuration
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Fri, 08 Apr 2016 13:29:49 +0200
+
+n4d-nfs (0.1) xenial; urgency=medium
+
+  * Initial release.
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Wed, 06 Apr 2016 14:01:10 +0200

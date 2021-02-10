@@ -1,0 +1,15 @@
+Source: n4d-nfs
+Section: admin
+Priority: extra
+Maintainer: Equipo LliureX <lliurex@gva.es>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.7
+Homepage: http://www.lliurex.net
+#Vcs-Svn: http://svn.lliurex.net/pandora/n4d-samba/trunk
+
+Package: n4d-nfs
+Architecture: all
+Pre-depends: n4d
+Depends: ${shlibs:Depends}, ${misc:Depends}, nfs-kernel-server, n4d-lliurex-base (>= 0.7)
+Description: N4D NFS Plugin
+ N4D plugin that offers nfs exportation functionalities
