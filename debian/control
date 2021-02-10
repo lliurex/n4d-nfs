@@ -10,6 +10,6 @@ Homepage: http://www.lliurex.net
 Package: n4d-nfs
 Architecture: all
 Pre-depends: n4d
-Depends: ${shlibs:Depends}, ${misc:Depends}, nfs-kernel-server, n4d-lliurex-base (>= 0.7)
+Depends: ${shlibs:Depends}, ${misc:Depends}, nfs-kernel-server
 Description: N4D NFS Plugin
  N4D plugin that offers nfs exportation functionalities
