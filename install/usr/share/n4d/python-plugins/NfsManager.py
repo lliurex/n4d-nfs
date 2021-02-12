@@ -12,9 +12,9 @@ import n4d.responses
 class NfsManager:
 
 	#ERRORS CODE
-	#backup_exception = -10
-	#restore_exception = -20
-	#export_directories_failed = -30
+	backup_exception = -10
+	restore_exception = -20
+	export_directories_failed = -30
 
 	
 	def __init__(self):
@@ -117,7 +117,7 @@ class NfsManager:
 		
 		#ret=os.system("exportfs -ra")
 		p=subprocess.Popen(["exportfs","-ra"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-		ret=p.communicate()
+		ret=p.communicate().decode('utf-8')
 		
 		if p.poll()==0:
 			#old n4d: return {"status":True , "msg": "NFS shares exported"}
@@ -125,7 +125,7 @@ class NfsManager:
 			
 		else:
 			#old n4d: return {"status":False, "msg":ret[1]}
-			return n4d.responses.build_failed_call_response(-30,ret[1])
+			return n4d.responses.build_failed_call_response(NfsManager.export_directories_failed,ret[1])
 		
 	#def export_directories
 
@@ -270,14 +270,14 @@ class NfsManager:
 		os.close(fd)
 		
 		p=subprocess.Popen(["systemd-escape",target.lstrip("/")],stdout=subprocess.PIPE)
-		file_name=p.communicate()[0].strip("\n")+".mount"
+		file_name=p.communicate()[0].decode('utf-8').strip("\n")+".mount"
 		file_dest="/lib/systemd/system/"+file_name
 		
 		n4d_mv(tmpfilepath,file_dest,True,'root','root','0644',False )
 		
 		os.system("systemctl daemon-reload")
-		o=subprocess.Popen(["systemctl","enable",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-		o2=subprocess.Popen(["systemctl","start",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+		o=subprocess.Popen(["systemctl","enable",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate().decode('utf-8')
+		o2=subprocess.Popen(["systemctl","start",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate().decode('utf-8')
 		
 		ret=(o,o2)
 		
@@ -290,14 +290,14 @@ class NfsManager:
 	def remove_mount_on_boot(self,target):
 		
 		p=subprocess.Popen(["systemd-escape",target.lstrip("/")],stdout=subprocess.PIPE)
-		file_name=p.communicate()[0].strip("\n")+".mount"
+		file_name=p.communicate()[0].decode('utf-8').strip("\n")+".mount"
 		file_dest="/lib/systemd/system/"+file_name
 		
 		ret=""
 		
 		if os.path.exists(file_dest):
-			o2=subprocess.Popen(["systemctl","stop",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-			o=subprocess.Popen(["systemctl","disable",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+			o2=subprocess.Popen(["systemctl","stop",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate().decode('utf-8')
+			o=subprocess.Popen(["systemctl","disable",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate().decode('utf-8')
 			os.remove(file_dest)
 			ret=(o,o2)
 			
@@ -310,7 +310,7 @@ class NfsManager:
 	def is_mount_configured(self,target):
 		
 		p=subprocess.Popen(["systemd-escape",target.lstrip("/")],stdout=subprocess.PIPE)
-		file_name=p.communicate()[0].strip("\n")+".mount"
+		file_name=p.communicate()[0].decode('utf-8').strip("\n")+".mount"
 		file_dest="/lib/systemd/system/"+file_name
 		
 		if os.path.exists(file_dest):
@@ -390,7 +390,7 @@ class NfsManager:
 		except Exception as e:
 			print ("Backup failed", e)
 			#Old n4d: return [False,str(e)]
-			return n4d.responses.build_failed_call_response(-10,str(e))
+			return n4d.responses.build_failed_call_response(NfsManager.backup_exception,str(e))
 
 	#def backup
 
@@ -434,7 +434,7 @@ class NfsManager:
 
 			print ("Restored failed", e)
 			#Old n4d: return [False,str(e)]
-			return n4d.responses.build_failed_call_response(-20,str(e))
+			return n4d.responses.build_failed_call_response(NfsManager.restore_exception,str(e))
 
 	#def restore
 	
