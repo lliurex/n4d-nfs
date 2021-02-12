@@ -1,3 +1,9 @@
+n4d-nfs (0.8.3) focal; urgency=medium
+
+  * Fix postinst
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Fri, 12 Feb 2021 16:59:09 +0100
+
 n4d-nfs (0.8.2) focal; urgency=medium
 
   *  port configuration
