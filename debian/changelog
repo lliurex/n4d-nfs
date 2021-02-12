@@ -1,3 +1,9 @@
+n4d-nfs (0.8.4) focal; urgency=medium
+
+  * add decode to subprocess functions
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Fri, 12 Feb 2021 17:31:17 +0100
+
 n4d-nfs (0.8.3) focal; urgency=medium
 
   * Fix postinst
