@@ -1,0 +1,109 @@
+{
+    "SETUP": {
+        "type": "python",
+        "path": "NfsManager.py",
+        "class": "NfsManager"
+    },
+    "METHODS": {
+        "parse_exports_file": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "fix_missing_no_root_squash": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "fix_async": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "export_directories": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "add_share": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "add_mirror": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "remove_ip_from_share": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "remove_ip_from_mirror": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "write_exports_file": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "configure_mount_on_boot": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "remove_mount_on_boot": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "is_mount_configured": {
+            "allowed_groups": [
+                "anonymous"
+            ]
+        },
+        "is_mirror_shared": {
+            "allowed_groups": [
+                "anonymous"
+            ]
+        },
+        "clean_exports_file": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "makedir": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "backup": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        },
+        "restore": {
+            "allowed_groups": [
+                "sudo",
+                "admins"
+            ]
+        }
+    }
+}
