@@ -1,3 +1,9 @@
+n4d-nfs (0.8.2) focal; urgency=medium
+
+  *  port configuration
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Fri, 12 Feb 2021 16:20:08 +0100
+
 n4d-nfs (0.8.1) focal; urgency=medium
 
   * remove old dependency
