@@ -1,4 +1,4 @@
-n4d-nfs (0.8.5) focal; urgency=medium
+n4d-nfs (0.8.6) focal; urgency=medium
 
   * Fixed subprocess decoding
 
