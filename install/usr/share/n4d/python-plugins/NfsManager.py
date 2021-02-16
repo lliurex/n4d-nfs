@@ -117,7 +117,7 @@ class NfsManager:
 		
 		#ret=os.system("exportfs -ra")
 		p=subprocess.Popen(["exportfs","-ra"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-		ret=p.communicate().decode('utf-8')
+		ret=p.communicate()[0].decode('utf-8')
 		
 		if p.poll()==0:
 			#old n4d: return {"status":True , "msg": "NFS shares exported"}
