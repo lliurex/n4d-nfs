@@ -117,7 +117,9 @@ class NfsManager:
 		
 		#ret=os.system("exportfs -ra")
 		p=subprocess.Popen(["exportfs","-ra"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-		ret=p.communicate()[0].decode('utf-8')
+		ret=list(p.communicate())
+		ret[0]=ret[0].decode("utf-8")
+		ret[1]=ret[1].decode("utf-8")
 		
 		if p.poll()==0:
 			#old n4d: return {"status":True , "msg": "NFS shares exported"}
@@ -242,7 +244,6 @@ class NfsManager:
 			#Old n4d: return {"status":True,"msg":"NFS exports.d file written"}
 			return n4d.responses.build_successful_call_response(True,"NFS exports.d file written")
 		else:
-			print('fracaso')
 			return n4d.responses.build_successful_call_response(False,"NFS exports.d can't file written")
 
 			
