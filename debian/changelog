@@ -1,3 +1,9 @@
+n4d-nfs (0.8.5) focal; urgency=medium
+
+  * Fixed subprocess decoding
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 16 Feb 2021 10:41:12 +0100
+
 n4d-nfs (0.8.4) focal; urgency=medium
 
   * add decode to subprocess functions
