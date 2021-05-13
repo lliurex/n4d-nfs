@@ -278,8 +278,8 @@ class NfsManager:
 		n4d_mv(tmpfilepath,file_dest,True,'root','root','0644',False )
 		
 		os.system("systemctl daemon-reload")
-		o=subprocess.Popen(["systemctl","enable",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate().decode('utf-8')
-		o2=subprocess.Popen(["systemctl","start",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate().decode('utf-8')
+		o=subprocess.Popen(["systemctl","enable",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0].decode('utf-8')
+		o2=subprocess.Popen(["systemctl","start",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0].decode('utf-8')
 		
 		ret=(o,o2)
 		
@@ -298,8 +298,8 @@ class NfsManager:
 		ret=""
 		
 		if os.path.exists(file_dest):
-			o2=subprocess.Popen(["systemctl","stop",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate().decode('utf-8')
-			o=subprocess.Popen(["systemctl","disable",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate().decode('utf-8')
+			o2=subprocess.Popen(["systemctl","stop",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0].decode('utf-8')
+			o=subprocess.Popen(["systemctl","disable",file_name],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0].decode('utf-8')
 			os.remove(file_dest)
 			ret=(o,o2)
 			
