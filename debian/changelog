@@ -1,3 +1,9 @@
+n4d-nfs (0.8.7) focal; urgency=medium
+
+  *  Fix add_mirror/remove_mirror methods
+
+ -- Juanma1980 <juanma1980@gmail.com>  Thu, 13 May 2021 19:19:46 +0200
+
 n4d-nfs (0.8.6) focal; urgency=medium
 
   * Fixed subprocess decoding
