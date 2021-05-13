@@ -263,7 +263,7 @@ class NfsManager:
 		list_variables["DEST"]=target
 		list_variables["OPTIONS"]=options
 		
-		string_template = template_cname.render(list_variables).encode('UTF-8')
+		string_template = template_cname.render(list_variables)#.encode('UTF-8')
 		
 		fd, tmpfilepath = tempfile.mkstemp()
 		new_export_file = open(tmpfilepath,'w')
