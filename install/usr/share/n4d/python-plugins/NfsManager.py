@@ -3,6 +3,7 @@ import subprocess
 import re
 import os
 import tempfile
+import tarfile
 from jinja2 import Environment
 from jinja2.loaders import FileSystemLoader
 from jinja2 import Template
